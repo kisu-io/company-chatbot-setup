@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company AI Learning Chatbot — Setup Guide</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #0ea5e9;
+            --bg: #0f172a;
+            --bg-card: #1e293b;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            margin-top: 1rem;
+        }
+
+        nav {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            position: sticky;
+            top: 1rem;
+            z-index: 100;
+        }
+
+        nav ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            list-style: none;
+            justify-content: center;
+        }
+
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            background: var(--primary);
+        }
+
+        .section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section h3 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--secondary);
+        }
+
+        .section p {
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+        }
+
+        code {
+            background: #0d1117;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+            font-size: 0.875rem;
+            color: #e2e8f0;
+        }
+
+        pre {
+            background: #0d1117;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #a5b4fc;
+        }
+
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+
+        .checklist input[type="checkbox"] {
+            width: 1.25rem;
+            height: 1.25rem;
+            accent-color: var(--success);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .card h4 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .card p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: rgba(14, 165, 233, 0.1);
+            border-color: var(--secondary);
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: var(--warning);
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--success);
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--danger);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: rgba(255,255,255,0.05);
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        td {
+            color: var(--text-muted);
+        }
+
+        tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: #0284c7;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            background: var(--primary);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item h4 {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-item p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .file-tree {
+            font-family: 'SF Mono', 'Monaco', monospace;
+            font-size: 0.875rem;
+            background: #0d1117;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .file-tree div {
+            padding: 0.25rem 0;
+        }
+
+        .file-tree .folder {
+            color: var(--secondary);
+        }
+
+        .file-tree .file {
+            color: var(--text-muted);
+            padding-left: 1.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🚀 Company AI Learning Chatbot</h1>
+        <p>Build an intelligent knowledge base chatbot using Lark Wiki and Hermes Agent</p>
+        <div class="badge">For Keezhu • New Mac Mini Setup • 2026-05-04</div>
+    </header>
+
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#pre-check">Pre-Check</a></li>
+                <li><a href="#setup">Setup Steps</a></li>
+                <li><a href="#files">Files</a></li>
+                <li><a href="#troubleshooting">Troubleshooting</a></li>
+                <li><a href="#github">GitHub Repo</a></li>
+            </ul>
+        </nav>
+
+        <section id="overview" class="section">
+            <h2>📋 Overview</h2>
+            <p>This guide walks you through setting up an AI-powered learning chatbot that syncs your company's Lark Wiki documentation and makes it searchable via natural language queries.</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h4>⏱️ Time Required</h4>
+                    <p>90-120 minutes for complete setup</p>
+                </div>
+                <div class="card">
+                    <h4>🎯 Difficulty</h4>
+                    <p>Intermediate (requires API setup + Python)</p>
+                </div>
+                <div class="card">
+                    <h4>📦 What You'll Build</h4>
+                    <p>Automated wiki sync + Q&A chatbot on Telegram</p>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>Architecture:</strong> Lark Wiki → Sync Script → Local Markdown → Hermes Agent → Telegram Users
+            </div>
+        </section>
+
+        <section id="pre-check" class="section">
+            <h2>✅ Pre-Session Checklist</h2>
+            <p>Complete these tonight before tomorrow's setup session:</p>
+            
+            <ul class="checklist">
+                <li>
+                    <input type="checkbox" id="check1">
+                    <label for="check1">Get Lark Open API credentials from https://open.feishu.cn</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check2">
+                    <label for="check2">Enable Docs: Read permission in Lark app settings</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check3">
+                    <label for="check3">Copy App ID and App Secret to secure note</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check4">
+                    <label for="check4">Count approximate number of wiki docs in your company</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check5">
+                    <label for="check5">Identify 5-10 sample docs for initial testing</label>
+                </li>
+            </ul>
+
+            <div class="alert alert-warning">
+                <strong>Security:</strong> Never commit API credentials to git. Use environment variables or secret management.
+            </div>
+        </section>
+
+        <section id="setup" class="section">
+            <h2>🛠️ Setup Steps</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>Phase 1: Install Hermes (15 min)</h4>
+                    <pre><code>curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+hermes --version
+python3 --version  # Need 3.10+</code></pre>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Phase 2: Copy Config Files (10 min)</h4>
+                    <pre><code>cd ~/projects/company-chatbot
+cp config.yaml.example ~/.hermes/config.yaml
+cp .env.example ~/.hermes/.env
+nano ~/.hermes/.env  # Fill in Lark credentials</code></pre>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Phase 3: Install Dependencies (10 min)</h4>
+                    <pre><code>pip3 install requests python-dotenv markdown
+python3 -c "import requests, dotenv; print('OK')"</code></pre>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Phase 4: Test Sync Script (20 min)</h4>
+                    <pre><code>chmod +x scripts/sync-lark-wiki.py
+python3 scripts/sync-lark-wiki.py</code></pre>
+                    <p>Expected: All docs synced to <code>company-wiki/raw/lark/</code></p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Phase 5: Test Hermes Queries (15 min)</h4>
+                    <pre><code>hermes
+# Ask: "What documents do we have about onboarding?"</code></pre>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Phase 6: Deploy to Telegram (15 min)</h4>
+                    <pre><code>hermes gateway start
+# Test from Telegram: "What's in our company wiki?"</code></pre>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Phase 7: Auto-Sync Cron (15 min, optional)</h4>
+                    <pre><code>crontab -e
+# Add: 0 */6 * * * python3 ~/projects/company-chatbot/scripts/sync-lark-wiki.py</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="files" class="section">
+            <h2>📁 Project Files</h2>
+            <p>All files are located in <code>~/projects/company-chatbot/</code>:</p>
+            
+            <div class="file-tree">
+                <div class="folder">~/projects/company-chatbot/</div>
+                <div class="file">├── setup-checklist.md</div>
+                <div class="file">├── quick-start.md</div>
+                <div class="file">├── .env.example</div>
+                <div class="file">├── config.yaml.example</div>
+                <div class="folder">├── scripts/</div>
+                <div class="file">│   ├── sync-lark-wiki.py</div>
+                <div class="file">│   └── sync-lark-wiki.md</div>
+                <div class="folder">└── company-wiki/</div>
+                <div class="file">    ├── SCHEMA.md</div>
+                <div class="file">    ├── index.md (auto-generated)</div>
+                <div class="file">    ├── log.md (auto-generated)</div>
+                <div class="folder">    └── raw/lark/ (synced docs)</div>
+            </div>
+
+            <h3>Key Files Explained</h3>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h4>sync-lark-wiki.py</h4>
+                    <p>Main sync script. Fetches docs from Lark API, converts to markdown, detects changes via SHA256, updates index.md and log.md automatically.</p>
+                </div>
+                <div class="card">
+                    <h4>SCHEMA.md</h4>
+                    <p>Wiki conventions: tag taxonomy, frontmatter format, page types, quality gates. Based on Karpathy's LLM Wiki pattern.</p>
+                </div>
+                <div class="card">
+                    <h4>config.yaml</h4>
+                    <p>Hermes Agent configuration: models, providers, MCP servers (optional), gateway settings, memory backend.</p>
+                </div>
+                <div class="card">
+                    <h4>.env</h4>
+                    <p>Environment variables: Lark credentials, wiki path, model overrides. Never commit this file.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="approaches" class="section">
+            <h2>🎯 Implementation Approaches</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Approach</th>
+                        <th>Best For</th>
+                        <th>Pros</th>
+                        <th>Cons</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Local Sync</strong></td>
+                        <td>&lt;100 docs, weekly updates</td>
+                        <td>Simple, fast queries, no rate limits</td>
+                        <td>Not real-time, needs sync script</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MCP Bridge</strong></td>
+                        <td>500+ docs, daily updates</td>
+                        <td>Always fresh, no sync complexity</td>
+                        <td>Needs MCP server, API rate limits</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hybrid</strong></td>
+                        <td>100-500 docs, weekly updates</td>
+                        <td>Fast cache + fresh fallback</td>
+                        <td>More complex setup</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert alert-success">
+                <strong>Recommendation:</strong> Start with <strong>Local Sync</strong>. You can add live MCP queries later if needed.
+            </div>
+        </section>
+
+        <section id="troubleshooting" class="section">
+            <h2>🐛 Troubleshooting</h2>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h4>❌ Auth Failed</h4>
+                    <p>Check LARK_APP_ID and LARK_APP_SECRET in ~/.hermes/.env. Verify in Lark developer console.</p>
+                </div>
+                <div class="card">
+                    <h4>❌ Permission Denied</h4>
+                    <p>Enable Docs:Read permission in Lark app → Permissions → Enable.</p>
+                </div>
+                <div class="card">
+                    <h4>❌ Rate Limited</h4>
+                    <p>Increase sleep delays in sync script: time.sleep(1) → time.sleep(3)</p>
+                </div>
+                <div class="card">
+                    <h4>❌ Wiki Not Found</h4>
+                    <p>Set WIKI_PATH in ~/.hermes/.env and restart Hermes.</p>
+                </div>
+            </div>
+
+            <h3>Quick Fixes</h3>
+            <pre><code># Check credentials
+cat ~/.hermes/.env | grep LARK
+
+# Test Lark API manually
+curl -X POST https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal \
+  -H "Content-Type: application/json" \
+  -d '{"app_id":"xxx","app_secret":"xxx"}'
+
+# Verify wiki path
+echo $WIKI_PATH
+ls -la ~/projects/company-chatbot/company-wiki/
+
+# Check Hermes config
+hermes config list</code></pre>
+        </section>
+
+        <section id="github" class="section">
+            <h2>🐙 GitHub Repository</h2>
+            <p>This setup guide is available as a public GitHub repository for easy access and updates:</p>
+            
+            <div class="alert alert-info">
+                <strong>Repository:</strong> <a href="https://github.com/kisu-io/company-chatbot-setup" target="_blank" style="color: var(--secondary);">github.com/kisu-io/company-chatbot-setup</a>
+            </div>
+
+            <h3>Clone the Repo</h3>
+            <pre><code>git clone https://github.com/kisu-io/company-chatbot-setup.git
+cd company-chatbot-setup
+cp .env.example .env
+# Edit .env with your credentials</code></pre>
+
+            <h3>What's Included</h3>
+            <ul class="checklist">
+                <li>✅ Complete setup documentation (this HTML page)</li>
+                <li>✅ Sync script ready to run</li>
+                <li>✅ Configuration templates</li>
+                <li>✅ SCHEMA.md for wiki structure</li>
+                <li>✅ Troubleshooting guide</li>
+            </ul>
+
+            <div style="margin-top: 2rem; text-align: center;">
+                <a href="https://github.com/kisu-io/company-chatbot-setup" class="btn" target="_blank">View on GitHub</a>
+                <a href="https://github.com/kisu-io/company-chatbot-setup/archive/refs/heads/main.zip" class="btn btn-secondary" style="margin-left: 1rem;">Download ZIP</a>
+            </div>
+        </section>
+
+        <section id="success" class="section">
+            <h2>🎯 Success Criteria</h2>
+            <p>By end of tomorrow's session, verify:</p>
+            
+            <ul class="checklist">
+                <li><input type="checkbox" id="s1"> <label for="s1">Hermes installed and running</label></li>
+                <li><input type="checkbox" id="s2"> <label for="s2">~/.hermes/.env has Lark credentials</label></li>
+                <li><input type="checkbox" id="s3"> <label for="s3">Sync script runs without errors</label></li>
+                <li><input type="checkbox" id="s4"> <label for="s4">At least 10 docs synced to company-wiki/raw/lark/</label></li>
+                <li><input type="checkbox" id="s5"> <label for="s5">index.md exists and lists documents</label></li>
+                <li><input type="checkbox" id="s6"> <label for="s6">Hermes can answer questions about wiki content</label></li>
+                <li><input type="checkbox" id="s7"> <label for="s7">Telegram bot responds (if gateway running)</label></li>
+                <li><input type="checkbox" id="s8"> <label for="s8">Cron job scheduled (optional)</label></li>
+            </ul>
+        </section>
+    </div>
+
+    <footer>
+        <p>Prepared for Keezhu • Company AI Learning Chatbot Setup</p>
+        <p style="margin-top: 0.5rem; font-size: 0.875rem;">Created: 2026-05-03 • Updated: 2026-05-04</p>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Save checklist state to localStorage
+        document.querySelectorAll('.checklist input').forEach(checkbox => {
+            const saved = localStorage.getItem(checkbox.id);
+            if (saved === 'true') {
+                checkbox.checked = true;
+            }
+            checkbox.addEventListener('change', () => {
+                localStorage.setItem(checkbox.id, checkbox.checked);
+            });
+        });
+    </script>
+</body>
+</html>

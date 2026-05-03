@@ -1,0 +1,68 @@
+# Hermes Agent Configuration
+# ~/.hermes/config.yaml
+
+# Primary model configuration
+models:
+  primary: qwen3.5:397b
+  fallbacks:
+    - minimax-m2.7:cloud
+    - kimi-k2.5
+    - glm-5.1
+
+# Provider settings
+providers:
+  ollama-cloud:
+    api_key: ${OLLAMA_CLOUD_API_KEY}
+  minimax:
+    api_key: ${MINIMAX_API_KEY}
+
+# MCP Servers (optional — for live Lark queries)
+# Uncomment if using MCP bridge approach
+# mcp_servers:
+#   lark-wiki:
+#     url: https://your-mcp-server.com/lark
+#     headers:
+#       Authorization: Bearer ${LARK_MCP_TOKEN}
+#     timeout: 180
+
+# Or for local stdio MCP server:
+#   lark-wiki:
+#     command: npx
+#     args: ["-y", "@lark/mcp-server-feishu"]
+#     env:
+#       LARK_APP_ID: ${LARK_APP_ID}
+#       LARK_APP_SECRET: ${LARK_APP_SECRET}
+
+# Gateway configuration (Telegram)
+gateway:
+  enabled: true
+  port: 18789
+  auth_token: ${GATEWAY_AUTH_TOKEN}
+
+# Memory settings
+memory:
+  backend: builtin
+  max_size_mb: 50
+
+# Delegation settings
+delegation:
+  max_concurrent_children: 3
+  max_spawn_depth: 2
+  orchestrator_enabled: true
+
+# Tool settings
+tools:
+  enabled:
+    - terminal
+    - file
+    - web
+    - search
+    - skills
+    - memory
+    - session_search
+
+# Session defaults
+session:
+  timeout_minutes: 60
+  auto_save_memory: true
+  workdir: ~/projects/company-chatbot
